@@ -17,10 +17,10 @@
   "minimum-stability": "stable",
   "autoload": {
     "psr-4": {
-      "nx\\parts\\db\\": [
+      "nx\\parts\\network\\": [
         "src/parts/"
       ],
-      "nx\\helpers\\db\\": [
+      "nx\\helpers\\network\\": [
         "src/helpers/"
       ]
     }
