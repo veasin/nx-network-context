@@ -13,7 +13,7 @@ class response{
 	 */
 	private $stream=null;
 	private int $statusCode=0;
-	private string $statusMessage='';
+	private ?string $statusMessage='';
 	private string $protocols='';
 	private string $protocolsVersion='';
 	private bool $working=false;
