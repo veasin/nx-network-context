@@ -21,7 +21,7 @@ class response{
 	private array $originHeaders=[];
 	private array $headers=[];
 	private ?string $body=null;
-	private mixed $_log =null;
+	private $_log=null;
 	/**
 	 * response constructor.
 	 * @param null  $stream
@@ -40,7 +40,7 @@ class response{
 		}
 	}
 	public function __destruct(){
-		fclose($this->stream);
+		if(is_resource($this->stream)) fclose($this->stream);
 	}
 	protected function parseStream(){
 		$this->meta=stream_get_meta_data($this->stream);

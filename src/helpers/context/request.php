@@ -14,7 +14,7 @@ class request{
 	private string $uri='';
 	private array $http=[];
 	private array $query=[];
-	private mixed $body='';
+	private mixed $body;
 	private ?string $contentType=null;
 	private array $headers=[];
 	/**
@@ -235,8 +235,8 @@ class request{
 	 * @param string|null $contentType
 	 * @return \nx\helpers\network\context\request
 	 */
-	public function body(mixed $body='', string $contentType=null):request{
-		$this->body=$body;
+	public function body(mixed $body=null, string $contentType=null):request{
+		$this->body=$body ?? '';
 		$this->contentType =$contentType;
 		return $this;
 	}
