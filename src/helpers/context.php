@@ -11,7 +11,7 @@
 declare(strict_types=1);
 namespace nx\helpers\network;
 
-class context{
+final class context{
 	public static function request(string $uri, string $method='get'):context\request{
 		return new context\request($uri, $method);
 	}

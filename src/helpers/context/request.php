@@ -21,10 +21,10 @@ class request{
 	 * @var callable
 	 */
 	private $_log =null;
-	public function setLog(callable $logger){
+	public function setLog(callable $logger): void{
 		$this->_log =$logger;
 	}
-	private function log($data){
+	private function log($data): void{
 		if(null !==$this->_log){
 			call_user_func($this->_log, $data);
 		}
@@ -37,7 +37,7 @@ class request{
 	 * 发送请求
 	 * @param null        $body
 	 * @param string|null $contentType
-	 * @return \nx\helpers\network\context\response
+	 * @return response
 	 */
 	public function send($body=null, string $contentType=null):response{
 		if(null !==$body) $this->body=$body;
@@ -153,9 +153,10 @@ class request{
 	}
 	/**
 	 * 覆盖设置header中的某个字段，如值为null 移除此字段
+	 *
 	 * @param string      $name
 	 * @param string|null $value
-	 * @return \nx\helpers\network\context\request
+	 * @return request
 	 */
 	public function header(string $name, string $value=null):request{
 		$name =strtolower($name);
@@ -166,8 +167,9 @@ class request{
 	}
 	/**
 	 * 同事设置多个header ['Connection: close',...] 或 ['Connection'=>'close',...]
+	 *
 	 * @param array $headers
-	 * @return \nx\helpers\network\context\request
+	 * @return request
 	 */
 	public function headers(array $headers=[]):request{
 		foreach($headers as $key =>$header){
@@ -186,7 +188,7 @@ class request{
 	 * @param string $key
 	 * @param        $value
 	 */
-	private function nullOrSet(string $key, $value){
+	private function nullOrSet(string $key, $value): void{
 		if(null === $value){
 			unset($this->http[$key]);
 		}else $this->http[$key]=$value;
@@ -194,8 +196,9 @@ class request{
 	/**
 	 * 远程服务器支持的 GET，POST 或其它 HTTP 方法。
 	 * 默认值是 GET
+	 *
 	 * @param string $method
-	 * @return \nx\helpers\network\context\request
+	 * @return request
 	 */
 	public function method(string $method='get'):request{
 		$this->http['method']=$method;
@@ -203,8 +206,9 @@ class request{
 	}
 	/**
 	 * 请求期间发送的额外 header 。在此选项的值将覆盖其他值 （诸如 User-agent:， Host: 和 Authentication:）。
+	 *
 	 * @param string|null $header
-	 * @return \nx\helpers\network\context\request
+	 * @return request
 	 */
 	public function headerString(string $header=null):request{
 		$this->nullOrSet('header', $header);
@@ -213,8 +217,9 @@ class request{
 	/**
 	 * 要发送的 header User-Agent: 的值。如果在上面的 header context 选项中没有指定 user-agent，此值将被使用。
 	 * 默认使用 php.ini 中设置的 user_agent。
+	 *
 	 * @param string|null $user_agent
-	 * @return \nx\helpers\network\context\request
+	 * @return request
 	 */
 	public function userAgent(string $user_agent=null):request{
 		$this->nullOrSet('user_agent', $user_agent);
@@ -222,8 +227,9 @@ class request{
 	}
 	/**
 	 * 覆盖当前请求的query参数
+	 *
 	 * @param array $query
-	 * @return \nx\helpers\network\context\request
+	 * @return request
 	 */
 	public function query(array $query=[]):request{
 		$this->query=$query;
@@ -231,9 +237,10 @@ class request{
 	}
 	/**
 	 * 在 header 后面要发送的额外数据。通常使用POST或PUT请求。
+	 *
 	 * @param string      $body
 	 * @param string|null $contentType
-	 * @return \nx\helpers\network\context\request
+	 * @return request
 	 */
 	public function body(mixed $body=null, string $contentType=null):request{
 		$this->body=$body ?? '';
@@ -242,8 +249,9 @@ class request{
 	}
 	/**
 	 * 覆盖设定contentType类型，支持简化写法 json=>application/json
+	 *
 	 * @param string $contentType
-	 * @return \nx\helpers\network\context\request
+	 * @return request
 	 */
 	public function contentType(string $contentType=type::WWW_FORM):request{
 		$this->contentType=$contentType;
@@ -251,8 +259,9 @@ class request{
 	}
 	/**
 	 * URI 指定的代理服务器的地址。(e.g. tcp://proxy.example.com:5100).
+	 *
 	 * @param string|null $proxy
-	 * @return \nx\helpers\network\context\request
+	 * @return request
 	 */
 	public function proxy(string $proxy=null):request{
 		$this->nullOrSet('proxy', $proxy);
@@ -261,8 +270,9 @@ class request{
 	/**
 	 * 跟随重定向的最大次数。值为 1 或更少则意味不跟随重定向。
 	 * 默认值是 20。
+	 *
 	 * @param bool $no
-	 * @return \nx\helpers\network\context\request
+	 * @return request
 	 */
 	public function NoRedirect(bool $no=false):request{
 		$this->nullOrSet('max_redirects', $no ?1 :null);
@@ -271,8 +281,9 @@ class request{
 	/**
 	 * HTTP 协议版本。
 	 * 默认值是 1.0。
+	 *
 	 * @param float|null $version
-	 * @return \nx\helpers\network\context\request
+	 * @return request
 	 */
 	public function protocolVersion(float $version=null):request{
 		$this->nullOrSet('protocol_version', $version);
@@ -281,8 +292,9 @@ class request{
 	/**
 	 * 读取超时时间，单位为秒（s），用 float 指定(e.g. 10.5)。
 	 * 默认使用 php.ini 中设置的 default_socket_timeout。
+	 *
 	 * @param float|null $second
-	 * @return \nx\helpers\network\context\request
+	 * @return request
 	 */
 	public function timeout(float $second=null):request{
 		$this->nullOrSet('timeout', $second);
@@ -291,8 +303,9 @@ class request{
 	/**
 	 * 即使是故障状态码依然获取内容。
 	 * 默认值为 FALSE.
+	 *
 	 * @param bool $no
-	 * @return \nx\helpers\network\context\request
+	 * @return request
 	 */
 	public function ignoreStatusCode(bool $no=false):request{
 		$this->http['ignore_errors']=!$no;

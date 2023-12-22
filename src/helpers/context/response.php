@@ -11,17 +11,20 @@ class response{
 	/**
 	 * @var \resource
 	 */
-	private $stream=null;
+	private $stream;
 	private int $statusCode=0;
 	private ?string $statusMessage='';
 	private string $protocols='';
 	private string $protocolsVersion='';
-	private bool $working=false;
+	private bool $working;
 	private array $meta=[];
 	private array $originHeaders=[];
 	private array $headers=[];
 	private ?string $body=null;
-	private $_log=null;
+	/**
+	 * @var callable|null
+	 */
+	private $_log;
 	/**
 	 * response constructor.
 	 * @param null  $stream
@@ -34,7 +37,7 @@ class response{
 		$this->log('  working: '.($this->working?'yes':'no'));
 		if($this->working) $this->parseStream();
 	}
-	private function log($data){
+	private function log($data): void{
 		if(null !==$this->_log){
 			call_user_func($this->_log, $data);
 		}
@@ -42,7 +45,7 @@ class response{
 	public function __destruct(){
 		if(is_resource($this->stream)) fclose($this->stream);
 	}
-	protected function parseStream(){
+	protected function parseStream(): void{
 		$this->meta=stream_get_meta_data($this->stream);
 		switch($this->meta['wrapper_type']){
 			case 'http':
